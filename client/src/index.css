@@ -1,0 +1,45 @@
+body {
+    padding: 0 0px;
+}
+
+.Not.Found{
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+    font-size: 4rem;
+    color: #333;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15%;
+}
+
+
+
+.Not.Found button {
+    background-color: #629cdf;
+    padding: 10px;
+    font-size: 1.5rem;
+    color: #d5e3e9;
+    border-radius: 15px;
+    border: none;
+}
+
+.Not.Found button:hover {
+    background-color: aqua;
+    color: #333;
+}
+
+@media (max-width: 800px) {
+
+    .Not.Found {
+        margin-top: 40%;
+        font-size: 2.2rem;
+
+    }
+
+    .Not.Found button {
+        margin-top: 50px;
+        padding: 5px 10px;
+        font-size: 0.9rem;
+    }
+}
