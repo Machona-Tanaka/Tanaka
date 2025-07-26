@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaSearch, FaBookmark, FaRegBookmark, FaShare, FaClock, FaCalendarAlt } from 'react-icons/fa';
-import './ArticleDiscovery.css';
+import '../../assets/css/ArticleDiscovery.css';
 
 const ArticleDiscovery = () => {
   const [searchQuery, setSearchQuery] = useState('');

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaSearch, FaPlay, FaBook, FaDownload, FaRegBookmark, FaBookmark, FaShare } from 'react-icons/fa';
-import './PodGuideDiscovery.css';
+import '../../assets/css/PodGuideDiscovery.css';
 
 const PodGuideDiscovery = () => {
   const [searchQuery, setSearchQuery] = useState('');

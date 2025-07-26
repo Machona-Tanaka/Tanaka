@@ -12,12 +12,12 @@ import Products from './Components/Podmerch/Products';
 import ArticleDiscovery from './Components/Articles/Articles';
 import PodGuideDiscovery from './Components/Podguide/Podguide';
 import Contacts from './Components/Contact/Contacts';
-// Removed any CSS imports from other folders to avoid importing styles from unintended locations.
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: (
+      
       <>
         <Navbar />
           <Home />

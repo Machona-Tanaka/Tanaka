@@ -1,46 +1,36 @@
+require('dotenv').config();
 const express = require('express');
-const mysql = require('mysql2');
+const cors = require('cors');
+const db = require('./config/db');
+
+// Test DB connection
+db.query('SELECT 1')
+  .then(() => console.log('Database connected'))
+  .catch(err => {
+    console.error('Database connection failed:', err);
+    process.exit(1);
+  });
 
 const app = express();
-const port = 3000;
 
-// MySQL connection configuration
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'school'
+// Middleware
+app.use(cors());
+app.use(express.json());
+
+// Routes
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/podcasts', require('./routes/podcasts'));
+app.use('/api', require('./routes/episodes'));
+app.use('/api/categories', require('./routes/categories'));
+app.use(require('./middleware/errorHandler'));
+
+// Error handling
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Connect to MySQL
-db.connect((err) => {
-    if (err) {
-        console.error('Error connecting to MySQL:', err);
-        process.exit(1);
-    }
-    console.log('Connected to MySQL database');
-});
-
-// Example route
-app.get('/api', (req, res) => {
-    db.query('SELECT NOW() AS now', (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Database query failed' });
-        }
-        res.json({ serverTime: results[0].now });
-    });
-});
-
-app.get('/api/students', (req, res) => {
-    db.query('SELECT * FROM students', (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Database query failed' });
-        }
-        res.json(results);
-    });
-});
-
-
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

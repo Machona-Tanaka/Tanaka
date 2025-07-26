@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaEnvelope, FaArrowLeft, FaPodcast } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import './AuthPages.css';
+import '../../assets/css/AuthPages.css';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');

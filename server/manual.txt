@@ -1,0 +1,92 @@
+API Endpoints
+Authentication
+POST /api/auth/register - Register a new user
+
+POST /api/auth/login - Login with existing user
+
+Podcasts
+POST /api/podcasts - Create a new podcast (authenticated)
+
+GET /api/podcasts - Get all podcasts (paginated)
+
+GET /api/podcasts/search?q=query - Search podcasts
+
+GET /api/podcasts/:id - Get a single podcast
+
+
+
+
+API Endpoints for Episodes
+Create Episode
+
+POST /api/podcasts/:podcastId/episodes
+
+Requires authentication
+
+Body: { title, description, audio_url, duration }
+
+Get Podcast Episodes
+
+GET /api/podcasts/:podcastId/episodes
+
+Returns all episodes for a podcast
+
+Get Single Episode
+
+GET /api/episodes/:id
+
+Returns episode details
+
+Update Episode
+
+PUT /api/episodes/:id
+
+Requires authentication
+
+Body: { title, description, audio_url, duration }
+
+Delete Episode
+
+DELETE /api/episodes/:id
+
+Requires authentication
+
+Record Download
+
+POST /api/episodes/:id/download
+
+Increments download count
+
+
+
+
+API Endpoints for Categories
+Create Category (Admin only)
+
+POST /api/categories
+
+Body: { name, description }
+
+Get All Categories
+
+GET /api/categories
+
+Get Single Category
+
+GET /api/categories/:id
+
+Update Category (Admin only)
+
+PUT /api/categories/:id
+
+Body: { name, description }
+
+Delete Category (Admin only)
+
+DELETE /api/categories/:id
+
+Get Podcasts by Category
+
+GET /api/categories/:id/podcasts
+
+Supports pagination: ?page=1&limit=10

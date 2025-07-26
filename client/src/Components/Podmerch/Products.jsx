@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FaSearch, FaShoppingCart, FaHeart, FaStar, FaRegStar, FaFilter } from 'react-icons/fa';
-import './ProductDiscovery.css';
+import '../../assets/css/ProductDiscovery.css';
 
 const Products = () => {
   const [searchQuery, setSearchQuery] = useState('');

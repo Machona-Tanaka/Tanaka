@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { FaPlay, FaPause, FaVolumeUp, FaVolumeMute, FaHeart, FaRegHeart, FaComment, FaShare, FaEllipsisH } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 
-import './PodcastPlayer.css';
+import '../../../assets/css/PodcastPlayer.css';
 
 const PodcastPlayer = () => {
   // video id from URL params

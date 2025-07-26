@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaBars, FaSearch, FaShoppingCart } from 'react-icons/fa';
 import { useLocation } from 'react-router-dom';
-import './Navbar.css';
+import '../../assets/css/Navbar.css';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -95,43 +95,11 @@ const Navbar = () => {
           <li><a href="/podguide" onClick={() => setIsMenuOpen(false)}>PodGuides</a></li>
           <li><a href="/contact" onClick={() => setIsMenuOpen(false)}>Contact</a></li>
         </ul>
+        <div></div>
 
         {/* Right side icons (search and cart) */}
         {showCartAndSearch && (
           <div className="nav-icons">
-            {/* Desktop Search */}
-            {/* <form className="search-container desktop-search" onSubmit={handleSearch}>
-              <input 
-                type="text" 
-                placeholder="Search..." 
-                className="search-input"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              <button type="submit" className="search-btn">
-                <FaSearch />
-              </button>
-            </form> */}
-
-            {/* Mobile Search Toggle */}
-            {/* <button className="mobile-search-toggle" onClick={toggleMobileSearch}>
-              <FaSearch />
-            </button> */}
-
-            {/* Mobile Search Input */}
-            {/* {showMobileSearch && (
-              <form className="search-container mobile-search" onSubmit={handleSearch}>
-                <input 
-                  type="text" 
-                  placeholder="Search..." 
-                  className="search-input"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  autoFocus
-                />
-              </form>
-            )} */}
-
             <div className="cart-icon">
               <a href="/cart">
                 <FaShoppingCart />

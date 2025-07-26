@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import { FaSearch, FaPlay, FaClock, FaCalendarAlt, FaFilter } from 'react-icons/fa';
-import './PodcastDiscovery.css';
+import '../../assets/css/PodcastDiscovery.css';
 
 const Podcast = () => {
   const [searchQuery, setSearchQuery] = useState('');

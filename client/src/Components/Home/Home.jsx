@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaHeadphones, FaMicrophone, FaPodcast } from 'react-icons/fa';
-import './Home.css'
+import '../../assets/css/Home.css'
 
 const Home = () => {
 

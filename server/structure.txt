@@ -1,0 +1,24 @@
+podcast-api/
+├── config/
+│   └── db.js
+├── controllers/
+│   ├── authController.js
+│   ├── podcastsController.js
+│   ├── episodesController.js
+│   └── categoriesController.js
+├── middleware/
+│   ├── auth.js
+│   └── errorHandler.js
+├── models/
+│   ├── User.js
+│   ├── Podcast.js
+│   ├── Episode.js
+│   └── Category.js
+├── routes/
+│   ├── auth.js
+│   ├── podcasts.js
+│   ├── episodes.js
+│   └── categories.js
+├── .env
+├── server.js
+└── package.json
