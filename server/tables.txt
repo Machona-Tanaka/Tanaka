@@ -1,0 +1,185 @@
+-- ====================================
+-- 📁 CATEGORY REFERENCE TABLES
+-- ====================================
+CREATE TABLE PodcastCategory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE GuideCategory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ArticleCategory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE ProductCategory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+-- ====================================
+-- 🎙️ PODCAST TABLE
+-- ====================================
+CREATE TABLE Podcast (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100),
+    host VARCHAR(100),
+    duration TIME,
+    release_date DATE,
+    image_url VARCHAR(255),
+    category_id INT,
+    description TEXT,
+    video_url VARCHAR(255),
+    views INT DEFAULT 0,
+    is_featured BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (category_id) REFERENCES PodcastCategory(id)
+);
+
+-- ====================================
+-- 💬 COMMENTS TABLE (MULTI-CONTENT)
+-- ====================================
+CREATE TABLE Comments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    target_type VARCHAR(20),   -- 'podcast' or 'article'
+    target_id INT,             -- ID of the podcast or article
+    comment_text TEXT,
+    posted_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    like_count INT DEFAULT 0,
+    is_liked BOOLEAN DEFAULT FALSE
+);
+
+-- ====================================
+-- 📘 PODGUIDE TABLE
+-- ====================================
+CREATE TABLE PodGuide (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100),
+    author VARCHAR(100),
+    description TEXT,
+    image_url VARCHAR(255),
+    format VARCHAR(50),
+    pages INT,
+    downloads INT DEFAULT 0,
+    category_id INT,
+    is_new BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (category_id) REFERENCES GuideCategory(id)
+);
+
+-- ====================================
+-- 🔔 OTHER UPDATES TABLE
+-- ====================================
+CREATE TABLE OtherUpdates (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100),
+    update_type VARCHAR(50),
+    posted_date DATE,
+    related_entity VARCHAR(50)
+);
+
+-- ====================================
+-- 📰 ARTICLES TABLE
+-- ====================================
+CREATE TABLE Articles (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100),
+    author VARCHAR(100),
+    excerpt TEXT,
+    image_url VARCHAR(255),
+    read_time INT,
+    publish_date DATE,
+    category_id INT,
+    is_saved BOOLEAN DEFAULT FALSE,
+    views INT DEFAULT 0,
+    FOREIGN KEY (category_id) REFERENCES ArticleCategory(id)
+);
+
+-- ====================================
+-- 👕 PRODUCTS TABLE (CLOTHING)
+-- ====================================
+CREATE TABLE Products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10,2),
+    discount_rate DECIMAL(5,2),
+    rating DECIMAL(3,2),
+    image_url VARCHAR(255),
+    category_id INT,
+    is_new BOOLEAN DEFAULT FALSE,
+    stock_quantity INT DEFAULT 0,
+    size_options VARCHAR(100),
+    FOREIGN KEY (category_id) REFERENCES ProductCategory(id)
+);
+
+-- ====================================
+-- ⭐ REVIEWS TABLE FOR PRODUCTS
+-- ====================================
+CREATE TABLE Reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT,
+    user_id INT,
+    review_text TEXT,
+    rating DECIMAL(2,1) CHECK (rating BETWEEN 0 AND 5),
+    review_date DATE DEFAULT CURRENT_DATE,
+    verified_purchase BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (product_id) REFERENCES Products(id)
+);
+-- ====================================
+-- 🔐 ACCOUNT DETAILS TABLE
+-- ====================================
+CREATE TABLE Account (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    account_status VARCHAR(20) DEFAULT 'active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login TIMESTAMP,
+    last_password_change TIMESTAMP,
+    is_verified BOOLEAN DEFAULT FALSE
+);
+
+-- ====================================
+-- 🌐 ACTIVITY & PREFERENCES TABLE
+-- ====================================
+CREATE TABLE ActivityPreferences (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    account_id INT,
+    language_preference VARCHAR(20) DEFAULT 'en',
+    theme_preference VARCHAR(10) DEFAULT 'light',
+    subscription_level VARCHAR(20) DEFAULT 'free',
+    email_notifications_enabled BOOLEAN DEFAULT TRUE,
+    interests TEXT,
+    FOREIGN KEY (account_id) REFERENCES Account(id)
+);
+
+-- ====================================
+-- 📊 USAGE & METRICS TABLE
+-- ====================================
+CREATE TABLE UsageMetrics (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    account_id INT,
+    login_count INT DEFAULT 0,
+    total_time_spent INT DEFAULT 0, -- in minutes
+    last_activity TIMESTAMP,
+    device_type VARCHAR(50),
+    location VARCHAR(100),          -- can store coordinates or IP
+    FOREIGN KEY (account_id) REFERENCES Account(id)
+);
+
+-- ====================================
+-- ⚠️ SECURITY & COMPLIANCE TABLE
+-- ====================================
+CREATE TABLE SecurityCompliance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    account_id INT,
+    security_questions TEXT,
+    two_factor_enabled BOOLEAN DEFAULT FALSE,
+    consent_given BOOLEAN DEFAULT FALSE,
+    data_retention_period INT,      -- in days
+    gdpr_compliance_status VARCHAR(20) DEFAULT 'unknown',
+    FOREIGN KEY (account_id) REFERENCES Account(id)
+);

@@ -1,17 +1,18 @@
+import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import Navbar from './Components/Navbar/Navbar';
-import Home from './Components/Home/Home';
-import Footer from './Components/footer/Footer';
-import SignIn from './Components/Auth/SignIn';
-import SignUp from './Components/Auth/SignUp';
-import ForgotPassword from './Components/Auth/ForgotPassword';
-import Podcast from './Components/PodCast/PodCast';
-import PodcastPlayer from './Components/PodCast/Watch/Podcast.Watch';
-import Products from './Components/Podmerch/Products';
-import ArticleDiscovery from './Components/Articles/Articles';
-import PodGuideDiscovery from './Components/Podguide/Podguide';
-import Contacts from './Components/Contact/Contacts';
+const Navbar = React.lazy(() => import('./Components/Navbar/Navbar'));
+const Home = React.lazy(() => import('./Components/Home/Home'));
+const SignIn = React.lazy(() => import('./Components/Auth/SignIn'));
+const SignUp = React.lazy(() => import('./Components/Auth/SignUp'));
+const ForgotPassword = React.lazy(() => import('./Components/Auth/ForgotPassword'));
+const Podcast = React.lazy(() => import('./Components/PodCast/PodCast'));
+const PodcastPlayer = React.lazy(() => import('./Components/PodCast/Watch/Podcast.Watch'));
+const Products = React.lazy(() => import('./Components/Podmerch/Products'));
+const ArticleDiscovery = React.lazy(() => import('./Components/Articles/Articles'));
+const PodGuideDiscovery = React.lazy(() => import('./Components/Podguide/Podguide'));
+const Contacts = React.lazy(() => import('./Components/Contact/Contacts'));
+const Footer = React.lazy(() => import('./Components/footer/Footer'));
 
 const router = createBrowserRouter([
   {
