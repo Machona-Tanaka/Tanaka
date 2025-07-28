@@ -1,17 +1,101 @@
 import React, { useState } from 'react';
-import { FaEnvelope, FaLock, FaPodcast } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaEnvelope, FaLock, FaPodcast, FaSpinner } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
 import '../../assets/css/AuthPages.css';
+import api from '../../services/api';
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    rememberMe: false
+  });
+  const [status, setStatus] = useState({
+    isLoading: false,
+    error:null,
+    success: null
+  });
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle sign in logic
-    console.log({ email, password, rememberMe });
+    
+    
+    // Prevent multiple submissions
+    if (status.isLoading) return;
+    
+    setStatus({ isLoading: true, error: null, success: null });
+
+
+    try {
+      const response = await api.login({
+        email: formData.email,
+        password: formData.password
+      });
+
+      if (response.data) {
+        // Store authentication data
+        localStorage.setItem('authToken', response.data.token);
+        if (formData.rememberMe) {
+          localStorage.setItem('rememberMe', 'true');
+        }
+        
+        localStorage.setItem('user', JSON.stringify(response.data));
+        
+        setStatus({
+          isLoading: false,
+          success: 'Login successful! Redirecting...',
+          error: null
+        });
+        
+        // Navigate directly without timeout
+        if (response.data.role == 'admin') {
+          // localStorage.setItem('user', {'name': response.data.username, id: response.data.id});
+          localStorage.setItem('userRole', response.data.role || 'admin'); // Default to admin if not provided
+          return navigate('/admin/dashboard', { replace: true });
+        }
+       
+      } else {
+        
+        setStatus({
+          isLoading: false,
+          error: response.data?.message || 'Login failed. Please try again.',
+          success: null
+        });
+      }
+    } catch (err) {
+      let errorMessage = 'An error occurred during login';
+      
+      if (err.response) {
+        switch (err.response.status) {
+          case 401:
+            errorMessage = 'Invalid email or password';
+            break;
+          case 403:
+            errorMessage = 'Account not verified. Please check your email';
+            break;
+          case 429:
+            errorMessage = 'Too many attempts. Please try again later';
+            break;
+          default:
+            errorMessage = err.response.data?.message || errorMessage;
+        }
+      }
+
+      setStatus({
+        isLoading: false,
+        error: errorMessage,
+        success: null
+      });
+    }
   };
 
   return (
@@ -23,15 +107,20 @@ const SignIn = () => {
           <p>Sign in to access your podcasts and preferences</p>
         </div>
 
+        {status.error &&<div className="auth-error">{status.error}</div> }
+        {status.success && <div className="auth-success">{status.success}</div>}
+        
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="input-group">
             <FaEnvelope className="input-icon" />
             <input
               type="email"
+              name="email"
               placeholder="Email Address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={handleChange}
               required
+              autoComplete="username"
             />
           </div>
 
@@ -39,10 +128,12 @@ const SignIn = () => {
             <FaLock className="input-icon" />
             <input
               type="password"
+              name="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={formData.password}
+              onChange={handleChange}
               required
+              autoComplete="current-password"
             />
           </div>
 
@@ -50,8 +141,9 @@ const SignIn = () => {
             <label className="remember-me">
               <input
                 type="checkbox"
-                checked={rememberMe}
-                onChange={(e) => setRememberMe(e.target.checked)}
+                name="rememberMe"
+                checked={formData.rememberMe}
+                onChange={handleChange}
               />
               Remember me
             </label>
@@ -60,8 +152,17 @@ const SignIn = () => {
             </Link>
           </div>
 
-          <button type="submit" className="auth-button">
-            Sign In
+          <button 
+            
+            className="auth-button" 
+            disabled={status.isLoading}
+          >
+            {status.isLoading ? (
+              <>
+                <FaSpinner className="spin-icon" />
+                Signing In...
+              </>
+            ) : 'Sign In'}
           </button>
 
           <div className="auth-footer">
@@ -74,11 +175,19 @@ const SignIn = () => {
         <div className="social-auth">
           <p>Or sign in with:</p>
           <div className="social-buttons">
-            <button className="social-button google">
+            <button 
+              type="button" 
+              className="social-button google"
+              onClick={() => window.location.href = `${api.baseURL}/auth/google`}
+            >
               <img src="/google-icon.png" alt="Google" />
               Google
             </button>
-            <button className="social-button apple">
+            <button 
+              type="button" 
+              className="social-button apple"
+              onClick={() => window.location.href = `${api.baseURL}/auth/apple`}
+            >
               <img src="/apple-icon.png" alt="Apple" />
               Apple
             </button>

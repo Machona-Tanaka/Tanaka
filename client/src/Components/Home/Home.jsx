@@ -18,7 +18,7 @@ const Home = () => {
                     <p className="tagline">Your gateway to captivating stories, insightful discussions, and audio adventures</p>
                     <div className="welcome-buttons">
                         <a href="#latest" className="btn btn-primary">Explore Podcasts</a>
-                        <a href="#" className="btn btn-secondary">Join Our Community</a>
+                        <a href="#" className="btn btn-primary">Join Our Community</a>
                     </div>
                 </div>
                 <div className="welcome-image">

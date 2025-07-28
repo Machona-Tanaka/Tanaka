@@ -1,0 +1,73 @@
+/* Mobile-first container */
+.user-management-links {
+    display: flex;
+    flex-direction: column; /* Stack vertically on mobile */
+    gap: 8px;
+    padding: 12px;
+    background-color: #f5f5f5;
+    border-radius: 6px;
+    width: 100%;
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Individual Links - Mobile */
+.user-management-link {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center content horizontally */
+    gap: 8px;
+    padding: 12px 8px; /* Larger tap targets */
+    background-color: white;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    min-height: 44px; /* Minimum touch target size for accessibility */
+}
+
+/* Icons - Mobile */
+.user-management-link-icon {
+    font-size: 16px; /* Slightly larger for mobile */
+    color: #555;
+}
+
+/* Hover/Active State - Mobile */
+.user-management-link:active, /* Mobile primarily uses active state */
+.user-management-link:hover {
+    background-color: #f0f0f0;
+    border-color: #ccc;
+    transform: scale(0.98); /* Subtle press effect */
+}
+
+/* Tablet and Desktop Styles (768px and up) */
+@media (min-width: 768px) {
+    .user-management-links {
+        flex-direction: row; /* Horizontal layout */
+        gap: 12px;
+    }
+    
+    .user-management-link {
+        padding: 8px 12px; /* Original padding */
+        justify-content: flex-start; /* Align left */
+        min-height: auto;
+    }
+    
+    .user-management-link-icon {
+        font-size: 14px; /* Original size */
+    }
+}
+
+/* Optional: Landscape orientation adjustments */
+@media (max-width: 767px) and (orientation: landscape) {
+    .user-management-links {
+        flex-direction: row; /* Horizontal in landscape */
+        flex-wrap: wrap; /* Allow wrapping if needed */
+    }
+    
+    .user-management-link {
+        flex: 1 1 30%; /* Flexible sizing */
+        min-width: 120px; /* Prevent too narrow */
+    }
+}
